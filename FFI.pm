@@ -7,7 +7,7 @@ use vars qw($VERSION @ISA);
 require DynaLoader;
 
 @ISA = qw(DynaLoader);
-$VERSION = '0.01';
+$VERSION = '1.00';
 
 bootstrap FFI $VERSION;
 
@@ -113,6 +113,13 @@ the address of various C library functions can be built around this
     DynaLoader::dl_free_file($clib);
 
 Clearly, code like this needs to be encapsulated in a module of some form...
+
+NOTE: In fact, the DynaLoader interface has problems in ActiveState Perl, and
+probably in other binary distributions of Perl. (The issue is related to the
+way in which the DynaLoader module is built, and may be addressed in future
+versions of Perl). In the interim, the higher-level wrapper module
+FFI::Library does not use DynaLoader on Win32 - it uses the (deprecated, but
+still available) Win32::LoadLibrary and related calls.
 
 =head1 TODO
 

@@ -20,8 +20,3 @@ There are two modules in the package:
       form suitable for calling from Perl.
 
 See the file INSTALL for installation details.
-
-NOTE: THIS MODULE IS STILL AT ALPHA LEVEL! This means that the interface is
-still subject to change. In practice, the format of function signatures *will*
-change, as the current format does not cater for returning pointers to
-anything other than static C strings.

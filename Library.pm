@@ -5,30 +5,54 @@ use Carp;
 use vars qw($VERSION);
 use FFI;
 
-$VERSION = '0.01';
+$VERSION = '1.00';
+
+if ($^O eq 'MSWin32') {
+    require Win32;
+}
+else {
+    require DynaLoader;
+}
 
 sub new {
-  my $class = shift;
-  my $libname = shift;
-  scalar(@_) <= 1
-    or croak 'Usage: $lib = new FFI::Library($filename [, $flags])';
-  my $so = $libname;
-  -e $so or $so = DynaLoader::dl_findfile($libname) || $libname;
-  my $lib = DynaLoader::dl_load_file($so, @_)
-    or return undef;
-  bless \$lib, $class;
+    my $class = shift;
+    my $libname = shift;
+    scalar(@_) <= 1
+        or croak 'Usage: $lib = new FFI::Library($filename [, $flags])';
+    my $lib;
+    if ($^O eq 'MSWin32') {
+        $lib = Win32::LoadLibrary($libname) or return undef;
+    }
+    else {
+        my $so = $libname;
+        -e $so or $so = DynaLoader::dl_findfile($libname) || $libname;
+        $lib = DynaLoader::dl_load_file($so, @_)
+            or return undef;
+    }
+    bless \$lib, $class;
 }
 
 sub DESTROY {
-  DynaLoader::dl_free_file(${$_[0]})
-    if defined (&DynaLoader::dl_free_file);
+    if ($^O eq 'MSWin32') {
+        Win32::FreeLibrary(${$_[0]});
+    }
+    else {
+        DynaLoader::dl_free_file(${$_[0]})
+            if defined (&DynaLoader::dl_free_file);
+    }
 }
 
 sub function {
     my $self = shift;
     my $name = shift;
     my $sig = shift;
-    my $addr = DynaLoader::dl_find_symbol(${$self}, $name);
+    my $addr;
+    if ($^O eq 'MSWin32') {
+        $addr = Win32::GetProcAddress(${$self}, $name);
+    }
+    else {
+        $addr = DynaLoader::dl_find_symbol(${$self}, $name);
+    }
     croak "Unknown function $name" unless defined $addr;
 
     sub { FFI::call($addr, $sig, @_); }
