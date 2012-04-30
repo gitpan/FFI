@@ -1,0 +1,32 @@
+---
+abstract: 'Perl Foreign Function Interface using libffcall'
+author:
+  - 'Paul Moore, C<< <gustav@morpheus.demon.co.uk> >> is the original author'
+  - 'Mitchell Charity C<< <mcharity@vendian.org> >> and'
+  - 'Reini Urban C<< <RURBAN@cpan.org> >> contributed fixes.'
+  - 'David Mertens C<< <dcmertens.perl@gmail.com> >> created L<Alien::FFCall> and'
+  - 'David Mertens C<< <dcmertens.perl@gmail.com> >>, Anatoly Vorobey'
+  - 'C<< <avorobey@pobox.com> >> and Gaal Yahas C<< <gaal@forum2.org> >> are the'
+build_requires:
+  ExtUtils::CBuilder: 0
+configure_requires:
+  Alien::FFCall: 0
+  Module::Build: 0.39
+dynamic_config: 1
+generated_by: 'Module::Build version 0.3901, CPAN::Meta::Converter version 2.120630'
+license: unknown
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: FFI
+provides:
+  FFI:
+    file: lib/FFI.pm
+    version: 1.04_01
+  FFI::Library:
+    file: lib/FFI/Library.pm
+    version: 1.04
+resources:
+  bugtracker: http://github.com/run4flat/perlffi/issues
+  repository: http://github.com/run4flat/perlffi
+version: 1.04_01

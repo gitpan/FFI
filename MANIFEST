@@ -1,0 +1,15 @@
+Build.PL
+COPYING
+Changes
+INSTALL
+MANIFEST
+README
+lib/FFI.pm
+lib/FFI.xs
+lib/FFI/Library.pm
+t/basic.t
+t/Support.pm
+t/win32.t
+TODO
+META.yml
+META.json
